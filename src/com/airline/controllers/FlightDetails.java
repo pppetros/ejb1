@@ -13,7 +13,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.airline.service.FlightService;
+import com.airline.service.FlightLocal;
+import com.airline.service.FlightRemote;
+import com.airline.service.FlightStatelessService;
 
 /**
  * Servlet implementation class FlightDetails
@@ -22,8 +24,11 @@ import com.airline.service.FlightService;
 public class FlightDetails extends HttpServlet {
 	private static final long serialVersionUID = 1L;
     
-//	@EJB
-	private FlightService fs = null;
+	@EJB(beanName = "flightStateless")
+	private FlightLocal fs;
+	
+	@EJB(beanName = "flightStateful")
+	private FlightRemote fsRemote;
 	
     /**
      * @see HttpServlet#HttpServlet()
@@ -44,18 +49,22 @@ public class FlightDetails extends HttpServlet {
 		
 		//Arxikopoiisi tou fs os FlightService tou EJB xoris to kolpo me to @EJB
 		//opos prin, alla me kleisi apeytheias tis klasis
-		try {
-			//Lookup in Java Naming and Directory Index (JNDI)
-			Context context = new InitialContext(); 
-			Object fObj = context.lookup("java:global/ejb1/FlightService!com.airline.service.FlightService");
-			fs = (FlightService) fObj;
-		}
-		catch(NamingException e) {
-			System.out.println("Naming exception has occured when trying to lookup the FlightService EJB");
-		}
-		
+//		try {
+//			//Lookup in Java Naming and Directory Index (JNDI)
+//			Context context = new InitialContext(); 
+//			Object fObj = context.lookup("java:global/ejb1/FlightService!com.airline.service.FlightService");
+//			fs = (FlightService) fObj;
+//		}
+//		catch(NamingException e) {
+//			System.out.println("Naming exception has occured when trying to lookup the FlightService EJB");
+//		}
+//		
 		if (fs != null) {
 			out.println("Flight details: " + fs.getFrom() + " " + fs.getTo());
+		}
+		
+		if (fsRemote != null) {
+			out.println("Flight details: " + fsRemote.getFrom() + " " + fsRemote.getTo());
 		}
 		
 //		out.println(fs.getAirplaneModel());
