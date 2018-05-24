@@ -6,17 +6,14 @@ import javax.ejb.Stateless;
 /**
  * Session Bean implementation class FlightService
  */
-@Stateless(name = "flightStateless") //Dino onoma stin bean klasi gia na tin ksexorizo
-//otan tin kalo ston controller me to @EJB(beanName=) giati mporei na ylopoioun 2 bean klaseis
-//to idio interface
-
-//@LocalBean //To afairoume giati sto Details evala to FlightLocal poy einai interface
-public class FlightStatelessService implements FlightLocal{
+@Stateless
+@LocalBean
+public class FlightService {
 
 	/**
 	 * Default constructor.
 	 */
-	public FlightStatelessService() {
+	public FlightService() {
 		// TODO Auto-generated constructor stub
 	}
 
